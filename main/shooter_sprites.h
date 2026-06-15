@@ -5,81 +5,82 @@
 #define SHOOT_SPR_KEY 0xF81Fu
 
 // Sprite native dimensions (drawn at 2x scale on screen)
-#define ROBOT_SPR_W   16u
-#define ROBOT_SPR_H   16u
-#define EBOT_SPR_W    12u
-#define EBOT_SPR_H    12u
-#define DRONE_SPR_W   12u
-#define DRONE_SPR_H   12u
-#define COIN_SPR_W     8u
-#define COIN_SPR_H     8u
-#define HEART_SPR_W    8u
-#define HEART_SPR_H    8u
-#define ROCK_SPR_W    12u
-#define ROCK_SPR_H    10u
-#define CRATE_SPR_W   12u
-#define CRATE_SPR_H   12u
-#define SLUG_SPR_W    12u
-#define SLUG_SPR_H    10u
+#define ROBOT_SPR_W 16u
+#define ROBOT_SPR_H 16u
+#define EBOT_SPR_W 12u
+#define EBOT_SPR_H 12u
+#define DRONE_SPR_W 12u
+#define DRONE_SPR_H 12u
+#define COIN_SPR_W 8u
+#define COIN_SPR_H 8u
+#define HEART_SPR_W 8u
+#define HEART_SPR_H 8u
+#define ROCK_SPR_W 12u
+#define ROCK_SPR_H 10u
+#define CRATE_SPR_W 12u
+#define CRATE_SPR_H 12u
+#define SLUG_SPR_W 12u
+#define SLUG_SPR_H 10u
 
 // ---------------------------------------------------------------
 // Local palette macros
 // ---------------------------------------------------------------
-#define _K   0xF81Fu  // transparent
+#define _K 0xF81Fu  // transparent
 
 // --- Keen-inspired player (white helmet, red shirt, green pants) ---
-#define _KW  0xFFFFu  // helmet white
-#define _KS  0x8C71u  // helmet shadow / gray rim
-#define _KF  0xFD2Cu  // face / skin
-#define _KE  0x001Fu  // eye blue
-#define _KR  0xF800u  // red shirt
-#define _KG  0x0540u  // green pants
-#define _KB  0x0010u  // dark blue boots
+#define _KW 0xFFFFu  // helmet white
+#define _KS 0x8C71u  // helmet shadow / gray rim
+#define _KF 0xFD2Cu  // face / skin
+#define _KE 0x001Fu  // eye blue
+#define _KR 0xF800u  // red shirt
+#define _KG 0x0540u  // green pants
+#define _KB 0x0010u  // dark blue boots
 
 // --- Ground bot enemy ---
-#define _EB  0x600Fu  // dark purple body
-#define _EL  0xA01Fu  // lighter purple
-#define _EE  0xF800u  // red eye glow
-#define _EW  0xFFFFu  // white wheel
-#define _EC  0x8410u  // gray chest panel
-#define _ED  0x2104u  // dark wheel hub
-#define _EO  0xFD20u  // orange indicator
+#define _EB 0x600Fu  // dark purple body
+#define _EL 0xA01Fu  // lighter purple
+#define _EE 0xF800u  // red eye glow
+#define _EW 0xFFFFu  // white wheel
+#define _EC 0x8410u  // gray chest panel
+#define _ED 0x2104u  // dark wheel hub
+#define _EO 0xFD20u  // orange indicator
 
 // --- Flying drone ---
-#define _DB  0x4208u  // dark gray body
-#define _DL  0x8410u  // light gray
-#define _DG  0x07E0u  // green propeller
-#define _DE  0xF800u  // red sensor
-#define _DY  0xFFE0u  // yellow thrust
+#define _DB 0x4208u  // dark gray body
+#define _DL 0x8410u  // light gray
+#define _DG 0x07E0u  // green propeller
+#define _DE 0xF800u  // red sensor
+#define _DY 0xFFE0u  // yellow thrust
 
 // --- Coin ---
-#define _CG  0xFEA0u  // gold
-#define _CO  0xD360u  // dark gold / shadow
-#define _CW  0xFFFFu  // white shine
+#define _CG 0xFEA0u  // gold
+#define _CO 0xD360u  // dark gold / shadow
+#define _CW 0xFFFFu  // white shine
 
 // --- Heart ---
-#define _HR  0xF800u  // red
-#define _HD  0xA000u  // dark red shadow
+#define _HR 0xF800u  // red
+#define _HD 0xA000u  // dark red shadow
 
 // --- Rock ---
-#define _RK  0x8430u  // medium gray
-#define _RH  0xC638u  // highlight
-#define _RS  0x4208u  // shadow
+#define _RK 0x8430u  // medium gray
+#define _RH 0xC638u  // highlight
+#define _RS 0x4208u  // shadow
 
 // --- Slug enemy ---
-#define _SY  0xFFE0u  // bright yellow body
-#define _SM  0xFC40u  // medium yellow
-#define _SD  0xC500u  // dark amber shadow
-#define _SE  0x0000u  // black eye
-#define _SW  0xFFFFu  // white eyeshine
-#define _SG  0x0400u  // dark green slime
+#define _SY 0xFFE0u  // bright yellow body
+#define _SM 0xFC40u  // medium yellow
+#define _SD 0xC500u  // dark amber shadow
+#define _SE 0x0000u  // black eye
+#define _SW 0xFFFFu  // white eyeshine
+#define _SG 0x0400u  // dark green slime
 
 // --- Crate ---
-#define _CB  0xA285u  // wood brown
-#define _CL  0xD4A7u  // light wood
-#define _CS  0x6180u  // dark wood shadow
-#define _CX  0x8163u  // cross stripe
+#define _CB 0xA285u  // wood brown
+#define _CL 0xD4A7u  // light wood
+#define _CS 0x6180u  // dark wood shadow
+#define _CX 0x8163u  // cross stripe
 
+// clang-format off
 // =============================================================
 // PLAYER  16 x 16  — 2 run frames + 1 jump frame
 // Commander Keen-inspired character: white helmet, red shirt,
@@ -350,6 +351,8 @@ static const uint16_t SLUG_F1[SLUG_SPR_W * SLUG_SPR_H] = {
     _K,  _K,  _SG, _SG, _SG, _SG, _SG, _SG, _K,  _K,  _K,  _K,  // r8
     _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  // r9
 };
+
+// clang-format on
 
 // Clean up local palette macros
 #undef _K

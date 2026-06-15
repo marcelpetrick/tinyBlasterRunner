@@ -17,39 +17,35 @@
 #include "freertos/task.h"
 #include "nvs_flash.h"
 
-static const char *TAG = "tdisplay_games";
+static const char* TAG = "tdisplay_games";
 
 typedef struct {
-    graphics_t      graphics;
-    shooter_game_t  game;
+    graphics_t graphics;
+    shooter_game_t game;
 } app_context_t;
 
-static esp_err_t handle_input(const button_event_t *events, size_t event_count, void *ctx)
-{
-    app_context_t *app = (app_context_t *)ctx;
+static esp_err_t handle_input(const button_event_t* events, size_t event_count, void* ctx) {
+    app_context_t* app = (app_context_t*)ctx;
     return shooter_game_handle_input(&app->game, events, event_count);
 }
 
-static esp_err_t update_game(uint32_t frame, uint32_t dt_ms, void *ctx)
-{
-    app_context_t *app = (app_context_t *)ctx;
+static esp_err_t update_game(uint32_t frame, uint32_t dt_ms, void* ctx) {
+    app_context_t* app = (app_context_t*)ctx;
     return shooter_game_update(&app->game, frame, dt_ms);
 }
 
-static esp_err_t render_game(uint32_t frame, uint32_t dt_ms, void *ctx)
-{
+static esp_err_t render_game(uint32_t frame, uint32_t dt_ms, void* ctx) {
     (void)frame;
     (void)dt_ms;
-    app_context_t *app = (app_context_t *)ctx;
+    app_context_t* app = (app_context_t*)ctx;
     return shooter_game_render(&app->game);
 }
 
-void app_main(void)
-{
+void app_main(void) {
     esp_chip_info_t chip_info;
-    uint32_t        flash_size    = 0;
-    int             chip_rev_major = 0;
-    int             chip_rev_minor = 0;
+    uint32_t flash_size = 0;
+    int chip_rev_major = 0;
+    int chip_rev_minor = 0;
 
     esp_chip_info(&chip_info);
     esp_flash_get_size(NULL, &flash_size);
@@ -69,7 +65,7 @@ void app_main(void)
     }
     ESP_ERROR_CHECK(nvs_err);
 
-    st7789_display_t *display = NULL;
+    st7789_display_t* display = NULL;
     ESP_ERROR_CHECK(st7789_display_init(&display));
     ESP_ERROR_CHECK(st7789_display_fill(display, 0x0000));
 
@@ -91,12 +87,12 @@ void app_main(void)
     ESP_ERROR_CHECK(shooter_game_init(&app.game, &app.graphics));
 
     const game_loop_config_t loop_config = {
-        .target_fps        = 30,
+        .target_fps = 30,
         .stats_interval_ms = 5000,
-        .ctx               = &app,
-        .on_input          = handle_input,
-        .on_update         = update_game,
-        .on_render         = render_game,
+        .ctx = &app,
+        .on_input = handle_input,
+        .on_update = update_game,
+        .on_render = render_game,
     };
     ESP_ERROR_CHECK(game_loop_run(&buttons, &loop_config));
 }

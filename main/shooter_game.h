@@ -21,26 +21,26 @@ typedef enum {
 // Player
 // ---------------------------------------------------------------
 typedef struct {
-    float    y;              // screen Y (top edge of sprite), float for sub-pixel
-    float    vy;             // vertical velocity px/frame (negative = upward)
-    bool     in_air;
+    float y;   // screen Y (top edge of sprite), float for sub-pixel
+    float vy;  // vertical velocity px/frame (negative = upward)
+    bool in_air;
 
-    bool     invuln;
-    uint32_t invuln_ms;      // remaining invulnerability ms
-    bool     visible;        // false during blink
-    uint32_t blink_ms;       // time within current blink phase
+    bool invuln;
+    uint32_t invuln_ms;  // remaining invulnerability ms
+    bool visible;        // false during blink
+    uint32_t blink_ms;   // time within current blink phase
 
-    int      run_frame;      // 0 or 1
+    int run_frame;  // 0 or 1
     uint32_t run_timer_ms;
 
     uint32_t shoot_cooldown_ms;  // remaining cooldown
 
-    bool     left_held;
-    uint32_t left_hold_ms;   // how long left is held this press
+    bool left_held;
+    uint32_t left_hold_ms;  // how long left is held this press
 
-    bool     double_jump_used;  // consumed on second mid-air jump; reset on landing
+    bool double_jump_used;  // consumed on second mid-air jump; reset on landing
 
-    bool     shooting_anim;  // brief arm animation
+    bool shooting_anim;  // brief arm animation
     uint32_t shoot_anim_ms;
 } sg_player_t;
 
@@ -48,7 +48,7 @@ typedef struct {
 // Projectile
 // ---------------------------------------------------------------
 typedef struct {
-    bool  active;
+    bool active;
     float x, y;
 } sg_projectile_t;
 
@@ -62,20 +62,20 @@ typedef enum {
 } sg_enemy_type_t;
 
 typedef struct {
-    bool           active;
+    bool active;
     sg_enemy_type_t type;
-    float          x, y;
-    int            anim_frame;  // 0 or 1
-    uint32_t       anim_ms;
+    float x, y;
+    int anim_frame;  // 0 or 1
+    uint32_t anim_ms;
 } sg_enemy_t;
 
 // ---------------------------------------------------------------
 // Coin
 // ---------------------------------------------------------------
 typedef struct {
-    bool     active;
-    float    x, y;
-    int      anim_frame;  // 0-3 rotation
+    bool active;
+    float x, y;
+    int anim_frame;  // 0-3 rotation
     uint32_t anim_ms;
 } sg_coin_t;
 
@@ -84,14 +84,14 @@ typedef struct {
 // ---------------------------------------------------------------
 typedef enum {
     SG_OBS_ROCK = 0,
-    SG_OBS_CRATE,        // breakable
+    SG_OBS_CRATE,  // breakable
 } sg_obs_type_t;
 
 typedef struct {
-    bool          active;
+    bool active;
     sg_obs_type_t type;
-    int           health;  // 1 = one shot, crate starts at 1
-    float         x, y;
+    int health;  // 1 = one shot, crate starts at 1
+    float x, y;
 } sg_obstacle_t;
 
 // ---------------------------------------------------------------
@@ -105,39 +105,39 @@ typedef enum {
 } sg_part_type_t;
 
 typedef struct {
-    bool         active;
+    bool active;
     sg_part_type_t type;
-    float        x, y;
-    float        vx, vy;
-    uint32_t     life_ms;
-    uint32_t     max_life_ms;
-    uint16_t     color;
-    int          value;   // for SG_PART_SCORE_TEXT: the value to display
+    float x, y;
+    float vx, vy;
+    uint32_t life_ms;
+    uint32_t max_life_ms;
+    uint16_t color;
+    int value;  // for SG_PART_SCORE_TEXT: the value to display
 } sg_particle_t;
 
 // ---------------------------------------------------------------
 // Main game struct
 // ---------------------------------------------------------------
 typedef struct {
-    graphics_t *graphics;
-    sg_state_t  state;
-    uint32_t    state_ms;     // time in current state
+    graphics_t* graphics;
+    sg_state_t state;
+    uint32_t state_ms;  // time in current state
 
     // gameplay — pool sizes are SG_MAX_* in shooter_game.c
-    sg_player_t     player;
+    sg_player_t player;
     sg_projectile_t projectiles[3];
-    sg_enemy_t      enemies[4];
-    sg_coin_t       coins[12];
-    sg_obstacle_t   obstacles[4];
-    sg_particle_t   particles[24];
+    sg_enemy_t enemies[4];
+    sg_coin_t coins[12];
+    sg_obstacle_t obstacles[4];
+    sg_particle_t particles[24];
 
-    int32_t  score;
-    int32_t  hi_score;
-    int      lives;
+    int32_t score;
+    int32_t hi_score;
+    int lives;
 
     // difficulty / timing
-    float    scroll_speed;     // px per frame
-    uint32_t game_ms;          // total play time ms
+    float scroll_speed;  // px per frame
+    uint32_t game_ms;    // total play time ms
     uint32_t last_coin_ms;
     uint32_t last_enemy_ms;
     uint32_t last_obstacle_ms;
@@ -150,9 +150,7 @@ typedef struct {
 // ---------------------------------------------------------------
 // API
 // ---------------------------------------------------------------
-esp_err_t shooter_game_init(shooter_game_t *game, graphics_t *graphics);
-esp_err_t shooter_game_handle_input(shooter_game_t *game,
-                                    const button_event_t *events,
-                                    size_t event_count);
-esp_err_t shooter_game_update(shooter_game_t *game, uint32_t frame, uint32_t dt_ms);
-esp_err_t shooter_game_render(shooter_game_t *game);
+esp_err_t shooter_game_init(shooter_game_t* game, graphics_t* graphics);
+esp_err_t shooter_game_handle_input(shooter_game_t* game, const button_event_t* events, size_t event_count);
+esp_err_t shooter_game_update(shooter_game_t* game, uint32_t frame, uint32_t dt_ms);
+esp_err_t shooter_game_render(shooter_game_t* game);
