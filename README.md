@@ -8,6 +8,10 @@ Side-scrolling arcade shooter for the TENSTAR T-Display ESP32 clone (135×240 ST
 
 **License: GPLv3 or later. See `LICENSE`.**
 
+## cutten state
+I should really record a video - photos don't show how funny it is.
+![](documents/v0.0.1_0.jpg) ![](documents/v0.0.1_1.jpg)
+
 ## Environment
 
 ```sh
