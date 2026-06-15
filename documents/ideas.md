@@ -131,7 +131,9 @@ pure-logic boundary and writing the first ~20 test cases.
 
 ---
 
-## #4 — Coverage report (gcov / lcov)
+## #4 — Coverage report (gcov / lcov) — Done
+
+`test/Makefile` gains a `coverage` target: compiles with `--coverage`, runs the suite, strips Unity and test harness via `lcov --remove`, generates HTML with `genhtml`. Prints summary line: `Coverage: X% lines → test/coverage_html/index.html`. `build_flash.sh coverage` delegates to this target. Generated artifacts added to `.gitignore`.
 
 **What:** After the host-target unit tests pass, generate a line/branch coverage HTML
 report showing which parts of the game logic are exercised by the test suite.

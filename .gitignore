@@ -4,3 +4,10 @@ sdkconfig.old
 dependencies.lock
 test/build/
 test/test_runner
+test/test_runner_cov
+test/coverage_html/
+test/coverage.info
+test/coverage_filtered.info
+test/*.gcda
+test/*.gcno
+docs/html/

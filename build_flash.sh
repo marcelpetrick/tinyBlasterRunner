@@ -85,8 +85,17 @@ case "$CMD" in
         echo "==> Monitoring $PORT at ${MONITOR_BAUD} baud (Ctrl-] to exit)..."
         idf.py -p "$PORT" -b "$MONITOR_BAUD" monitor
         ;;
+    coverage)
+        echo "==> Generating coverage report..."
+        IDF_PATH="$IDF_PATH" make -C test coverage
+        ;;
+    docs)
+        echo "==> Generating Doxygen docs..."
+        doxygen Doxyfile
+        echo "Docs generated: docs/html/index.html"
+        ;;
     *)
-        echo "Usage: $0 [build|flash|monitor|deploy|all]"
+        echo "Usage: $0 [build|flash|monitor|deploy|all|coverage|docs]"
         exit 1
         ;;
 esac
