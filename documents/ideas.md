@@ -97,7 +97,9 @@ Build summary line, smoke-test wiring via `CONFIG_RUN_SMOKE_TEST` Kconfig flag, 
 
 ---
 
-## #3 — Unit testing (Unity / host-target build)
+## #3 — Unit testing (Unity / host-target build) — Done
+
+18 Unity tests, all green. Difficulty constants and `difficulty_scroll_speed` / `difficulty_spawn_interval` extracted from `shooter_game.c` into `game_math.c` (with declarations in `game_math.h`), enabling host-side testing. 8 new tests cover scroll speed at t=0, step increase, cap clamping, monotone bound, and spawn interval at base speed, decrease with speed, minimum enforcement, and non-zero guarantee.
 
 **What:** Add a `test/` component that compiles and runs pure-logic code on the host
 (Linux) using ESP-IDF's native host-target support and the bundled Unity framework.

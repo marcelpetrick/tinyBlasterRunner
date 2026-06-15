@@ -72,22 +72,11 @@ static const char* TAG = "shooter_game";
 #define INVULN_MS 2000u
 #define BLINK_MS 100u
 
-// Difficulty
-#define DIFF_INTERVAL_MS 30000u
-#define SCROLL_SPEED_START 2.0f
-#define SCROLL_SPEED_MAX 4.0f
-#define SCROLL_SPEED_STEP 0.10f
-
 // Score
 #define SCORE_COIN 1
 #define SCORE_ENEMY 10
 #define SCORE_BREAKABLE 5
 #define DIST_SCORE_MS 1000u
-
-// Spawn base intervals (ms)
-#define SPAWN_COIN_BASE 2000u
-#define SPAWN_ENEMY_BASE 3000u
-#define SPAWN_OBS_BASE 3500u
 
 // ---------------------------------------------------------------
 // Colors (RGB565)
@@ -788,26 +777,14 @@ esp_err_t shooter_game_update(shooter_game_t* game, uint32_t frame, uint32_t dt_
     }
 
     // Difficulty scaling
-    {
-        uint32_t phase = game->game_ms / DIFF_INTERVAL_MS;
-        float new_speed = SCROLL_SPEED_START + (float)phase * SCROLL_SPEED_STEP;
-        if (new_speed > SCROLL_SPEED_MAX)
-            new_speed = SCROLL_SPEED_MAX;
-        game->scroll_speed = new_speed;
-    }
+    game->scroll_speed = difficulty_scroll_speed(game->game_ms);
 
     // Spawn logic
     {
-        float diff = game->scroll_speed / SCROLL_SPEED_START;
-        uint32_t c_int = (uint32_t)((float)SPAWN_COIN_BASE / diff);
-        uint32_t e_int = (uint32_t)((float)SPAWN_ENEMY_BASE / diff);
-        uint32_t o_int = (uint32_t)((float)SPAWN_OBS_BASE / diff);
-        if (c_int < 800u)
-            c_int = 800u;
-        if (e_int < 1200u)
-            e_int = 1200u;
-        if (o_int < 1500u)
-            o_int = 1500u;
+        float spd = game->scroll_speed;
+        uint32_t c_int = difficulty_spawn_interval(SPAWN_COIN_BASE, spd, SPAWN_COIN_MIN);
+        uint32_t e_int = difficulty_spawn_interval(SPAWN_ENEMY_BASE, spd, SPAWN_ENEMY_MIN);
+        uint32_t o_int = difficulty_spawn_interval(SPAWN_OBS_BASE, spd, SPAWN_OBS_MIN);
 
         if (game->game_ms - game->last_coin_ms >= c_int) {
             try_spawn_coin(game);

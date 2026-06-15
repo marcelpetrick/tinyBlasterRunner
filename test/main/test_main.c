@@ -73,6 +73,58 @@ void test_aabb_b_inside_a(void) {
 }
 
 // ---------------------------------------------------------------
+// difficulty_scroll_speed
+// ---------------------------------------------------------------
+
+void test_diff_speed_at_start(void) {
+    TEST_ASSERT_FLOAT_WITHIN(0.001f, SCROLL_SPEED_START, difficulty_scroll_speed(0));
+}
+
+void test_diff_speed_increases_after_one_phase(void) {
+    float s0 = difficulty_scroll_speed(0);
+    float s1 = difficulty_scroll_speed(DIFF_INTERVAL_MS);
+    TEST_ASSERT_TRUE(s1 > s0);
+    TEST_ASSERT_FLOAT_WITHIN(0.001f, s0 + SCROLL_SPEED_STEP, s1);
+}
+
+void test_diff_speed_clamped_at_max(void) {
+    /* Far enough in time to exceed the cap. */
+    float s = difficulty_scroll_speed(DIFF_INTERVAL_MS * 1000u);
+    TEST_ASSERT_FLOAT_WITHIN(0.001f, SCROLL_SPEED_MAX, s);
+}
+
+void test_diff_speed_never_exceeds_max(void) {
+    for (uint32_t ms = 0; ms < DIFF_INTERVAL_MS * 50u; ms += DIFF_INTERVAL_MS / 4u) {
+        TEST_ASSERT_TRUE(difficulty_scroll_speed(ms) <= SCROLL_SPEED_MAX + 0.001f);
+    }
+}
+
+// ---------------------------------------------------------------
+// difficulty_spawn_interval
+// ---------------------------------------------------------------
+
+void test_spawn_interval_at_base_speed(void) {
+    uint32_t iv = difficulty_spawn_interval(SPAWN_ENEMY_BASE, SCROLL_SPEED_START, SPAWN_ENEMY_MIN);
+    TEST_ASSERT_EQUAL_UINT32(SPAWN_ENEMY_BASE, iv);
+}
+
+void test_spawn_interval_decreases_with_higher_speed(void) {
+    uint32_t iv_slow = difficulty_spawn_interval(SPAWN_ENEMY_BASE, SCROLL_SPEED_START, 0u);
+    uint32_t iv_fast = difficulty_spawn_interval(SPAWN_ENEMY_BASE, SCROLL_SPEED_MAX, 0u);
+    TEST_ASSERT_TRUE(iv_fast < iv_slow);
+}
+
+void test_spawn_interval_respects_minimum(void) {
+    uint32_t iv = difficulty_spawn_interval(SPAWN_ENEMY_BASE, SCROLL_SPEED_MAX, SPAWN_ENEMY_MIN);
+    TEST_ASSERT_TRUE(iv >= SPAWN_ENEMY_MIN);
+}
+
+void test_spawn_interval_non_zero_at_max_speed(void) {
+    uint32_t iv = difficulty_spawn_interval(SPAWN_COIN_BASE, SCROLL_SPEED_MAX, 0u);
+    TEST_ASSERT_TRUE(iv > 0u);
+}
+
+// ---------------------------------------------------------------
 // Runner
 // ---------------------------------------------------------------
 
@@ -90,6 +142,16 @@ int main(void) {
     RUN_TEST(test_aabb_separated_x);
     RUN_TEST(test_aabb_separated_y);
     RUN_TEST(test_aabb_b_inside_a);
+
+    RUN_TEST(test_diff_speed_at_start);
+    RUN_TEST(test_diff_speed_increases_after_one_phase);
+    RUN_TEST(test_diff_speed_clamped_at_max);
+    RUN_TEST(test_diff_speed_never_exceeds_max);
+
+    RUN_TEST(test_spawn_interval_at_base_speed);
+    RUN_TEST(test_spawn_interval_decreases_with_higher_speed);
+    RUN_TEST(test_spawn_interval_respects_minimum);
+    RUN_TEST(test_spawn_interval_non_zero_at_max_speed);
 
     return UNITY_END();
 }
