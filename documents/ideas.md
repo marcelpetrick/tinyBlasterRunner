@@ -2,7 +2,9 @@
 
 ---
 
-## #0 — Commander Keen-style player sprite
+## #0 — Commander Keen-style player sprite — Done
+
+White helmet, red shirt, green pants, dark blue boots, flesh face with blue eyes. Three 16×16 RGB565 frames hand-authored in `main/shooter_sprites.h` (ROBOT_RUN0, ROBOT_RUN1, ROBOT_JUMP). No game code changes — sprite slot and dimensions unchanged.
 
 **What:** Replace the current robot sprite with a character styled after Commander Keen
 from *Commander Keen 4: Secret of the Oracle* (id Software, 1991). Same native 16×16 px

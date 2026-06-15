@@ -1,3 +1,3 @@
 #pragma once
 
-#define TBR_VERSION "v0.0.3"
+#define TBR_VERSION "v0.0.4"

@@ -25,14 +25,14 @@
 // ---------------------------------------------------------------
 #define _K   0xF81Fu  // transparent
 
-// --- Robot player ---
-#define _RB  0x235Fu  // steel blue body
-#define _RL  0x4E9Fu  // lighter blue
-#define _RY  0xFFE0u  // yellow chest / highlight
-#define _RW  0xFFFFu  // white eyes
-#define _RD  0x0000u  // black pupils
-#define _RG  0x8430u  // gray joint
-#define _RF  0x0010u  // dark blue feet/wheels
+// --- Keen-inspired player (white helmet, red shirt, green pants) ---
+#define _KW  0xFFFFu  // helmet white
+#define _KS  0x8C71u  // helmet shadow / gray rim
+#define _KF  0xFD2Cu  // face / skin
+#define _KE  0x001Fu  // eye blue
+#define _KR  0xF800u  // red shirt
+#define _KG  0x0540u  // green pants
+#define _KB  0x0010u  // dark blue boots
 
 // --- Ground bot enemy ---
 #define _EB  0x600Fu  // dark purple body
@@ -71,67 +71,67 @@
 #define _CX  0x8163u  // cross stripe
 
 // =============================================================
-// ROBOT PLAYER  16 x 16  — 2 run frames + 1 jump frame
-// The player is a small blue robot with a yellow chest panel,
-// white square eyes, and a blaster arm extending to the right.
+// PLAYER  16 x 16  — 2 run frames + 1 jump frame
+// Commander Keen-inspired character: white helmet, red shirt,
+// green pants, dark blue boots, flesh face with blue eyes.
 // =============================================================
 // Frame 0: run (left leg forward)
 static const uint16_t ROBOT_RUN0[ROBOT_SPR_W * ROBOT_SPR_H] = {
-    _K,  _K,  _K,  _K,  _K,  _K,  _K,  _RY, _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  // r0  antenna tip
-    _K,  _K,  _K,  _RB, _RB, _RB, _RB, _RY, _RB, _RB, _RB, _K,  _K,  _K,  _K,  _K,  // r1  head top
-    _K,  _K,  _RB, _RB, _RW, _RB, _RB, _RB, _RB, _RW, _RB, _RB, _K,  _K,  _K,  _K,  // r2  eye outer
-    _K,  _K,  _RB, _RB, _RD, _RW, _RB, _RB, _RW, _RD, _RB, _RB, _K,  _K,  _K,  _K,  // r3  pupils
-    _K,  _K,  _RB, _RB, _RW, _RB, _RB, _RB, _RB, _RW, _RB, _RB, _K,  _K,  _K,  _K,  // r4  eye lower
-    _K,  _K,  _K,  _RB, _RB, _RB, _RB, _RB, _RB, _RB, _RB, _K,  _K,  _K,  _K,  _K,  // r5  jaw
-    _K,  _RG, _RB, _RB, _RB, _RY, _RY, _RY, _RB, _RB, _RB, _RB, _RY, _RY, _K,  _K,  // r6  body + blaster arm
-    _K,  _RG, _RB, _RB, _RB, _RY, _RY, _RY, _RB, _RB, _RB, _RB, _RY, _RY, _K,  _K,  // r7  body
-    _K,  _K,  _RB, _RB, _RB, _RB, _RB, _RB, _RB, _RB, _RB, _RB, _K,  _K,  _K,  _K,  // r8  body lower
-    _K,  _K,  _RG, _RB, _RB, _RB, _RB, _RB, _RB, _RB, _RG, _K,  _K,  _K,  _K,  _K,  // r9  hip joint
-    _K,  _K,  _RB, _RF, _K,  _K,  _K,  _K,  _RB, _RF, _K,  _K,  _K,  _K,  _K,  _K,  // r10 upper legs
-    _K,  _K,  _RB, _RF, _K,  _K,  _K,  _K,  _K,  _RF, _K,  _K,  _K,  _K,  _K,  _K,  // r11 legs mid (L fwd)
-    _K,  _K,  _RF, _RF, _K,  _K,  _K,  _K,  _K,  _RF, _K,  _K,  _K,  _K,  _K,  _K,  // r12 lower left leg
-    _K,  _RF, _RF, _RF, _RF, _K,  _K,  _K,  _K,  _RF, _K,  _K,  _K,  _K,  _K,  _K,  // r13 left foot forward
-    _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _RF, _RF, _K,  _K,  _K,  _K,  _K,  _K,  // r14 right foot
+    _K,  _K,  _K,  _K,  _KW, _KW, _KW, _KW, _KW, _KW, _K,  _K,  _K,  _K,  _K,  _K,  // r0  helmet top
+    _K,  _K,  _K,  _KW, _KW, _KW, _KW, _KW, _KW, _KW, _KW, _K,  _K,  _K,  _K,  _K,  // r1  helmet
+    _K,  _K,  _KW, _KW, _KW, _KW, _KW, _KW, _KW, _KW, _KW, _KW, _K,  _K,  _K,  _K,  // r2  helmet wider
+    _K,  _K,  _KS, _KF, _KF, _KF, _KF, _KF, _KF, _KF, _KS, _K,  _K,  _K,  _K,  _K,  // r3  face top
+    _K,  _K,  _KS, _KF, _KE, _KE, _KF, _KF, _KE, _KE, _KS, _K,  _K,  _K,  _K,  _K,  // r4  eyes
+    _K,  _K,  _KS, _KF, _KF, _KF, _KF, _KF, _KF, _KF, _KS, _K,  _K,  _K,  _K,  _K,  // r5  face lower
+    _K,  _K,  _K,  _KS, _KS, _KS, _KS, _KS, _KS, _KS, _K,  _K,  _K,  _K,  _K,  _K,  // r6  chin strap
+    _K,  _K,  _KR, _KR, _KR, _KR, _KR, _KR, _KR, _KR, _K,  _K,  _K,  _K,  _K,  _K,  // r7  shirt top
+    _K,  _KR, _KR, _KR, _KR, _KR, _KR, _KR, _KR, _KR, _KR, _K,  _K,  _K,  _K,  _K,  // r8  shirt (arms out)
+    _K,  _KR, _KR, _KR, _KR, _KR, _KR, _KR, _KR, _KR, _KR, _K,  _K,  _K,  _K,  _K,  // r9  shirt lower
+    _K,  _K,  _KG, _KG, _KG, _KG, _KG, _KG, _KG, _KG, _K,  _K,  _K,  _K,  _K,  _K,  // r10 pants top
+    _K,  _K,  _KG, _KG, _KG, _KG, _KG, _KG, _KG, _KG, _K,  _K,  _K,  _K,  _K,  _K,  // r11 pants
+    _K,  _K,  _KG, _KB, _K,  _K,  _K,  _KG, _KB, _K,  _K,  _K,  _K,  _K,  _K,  _K,  // r12 upper legs
+    _K,  _K,  _KG, _KB, _K,  _K,  _K,  _K,  _KB, _K,  _K,  _K,  _K,  _K,  _K,  _K,  // r13 left leg fwd
+    _K,  _KB, _KB, _KB, _KB, _K,  _K,  _K,  _KB, _K,  _K,  _K,  _K,  _K,  _K,  _K,  // r14 left boot fwd
     _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  // r15
 };
 
 // Frame 1: run (right leg forward)
 static const uint16_t ROBOT_RUN1[ROBOT_SPR_W * ROBOT_SPR_H] = {
-    _K,  _K,  _K,  _K,  _K,  _K,  _K,  _RY, _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  // r0
-    _K,  _K,  _K,  _RB, _RB, _RB, _RB, _RY, _RB, _RB, _RB, _K,  _K,  _K,  _K,  _K,  // r1
-    _K,  _K,  _RB, _RB, _RW, _RB, _RB, _RB, _RB, _RW, _RB, _RB, _K,  _K,  _K,  _K,  // r2
-    _K,  _K,  _RB, _RB, _RD, _RW, _RB, _RB, _RW, _RD, _RB, _RB, _K,  _K,  _K,  _K,  // r3
-    _K,  _K,  _RB, _RB, _RW, _RB, _RB, _RB, _RB, _RW, _RB, _RB, _K,  _K,  _K,  _K,  // r4
-    _K,  _K,  _K,  _RB, _RB, _RB, _RB, _RB, _RB, _RB, _RB, _K,  _K,  _K,  _K,  _K,  // r5
-    _K,  _RG, _RB, _RB, _RB, _RY, _RY, _RY, _RB, _RB, _RB, _RB, _RY, _RY, _K,  _K,  // r6
-    _K,  _RG, _RB, _RB, _RB, _RY, _RY, _RY, _RB, _RB, _RB, _RB, _RY, _RY, _K,  _K,  // r7
-    _K,  _K,  _RB, _RB, _RB, _RB, _RB, _RB, _RB, _RB, _RB, _RB, _K,  _K,  _K,  _K,  // r8
-    _K,  _K,  _RG, _RB, _RB, _RB, _RB, _RB, _RB, _RB, _RG, _K,  _K,  _K,  _K,  _K,  // r9
-    _K,  _K,  _RF, _RB, _K,  _K,  _K,  _K,  _RB, _RF, _K,  _K,  _K,  _K,  _K,  _K,  // r10
-    _K,  _K,  _RF, _K,  _K,  _K,  _K,  _K,  _RB, _RF, _K,  _K,  _K,  _K,  _K,  _K,  // r11 (R fwd)
-    _K,  _K,  _RF, _K,  _K,  _K,  _K,  _K,  _RF, _RF, _K,  _K,  _K,  _K,  _K,  _K,  // r12
-    _K,  _K,  _RF, _K,  _K,  _K,  _K,  _RF, _RF, _RF, _RF, _K,  _K,  _K,  _K,  _K,  // r13 right foot fwd
-    _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  // r14
+    _K,  _K,  _K,  _K,  _KW, _KW, _KW, _KW, _KW, _KW, _K,  _K,  _K,  _K,  _K,  _K,  // r0
+    _K,  _K,  _K,  _KW, _KW, _KW, _KW, _KW, _KW, _KW, _KW, _K,  _K,  _K,  _K,  _K,  // r1
+    _K,  _K,  _KW, _KW, _KW, _KW, _KW, _KW, _KW, _KW, _KW, _KW, _K,  _K,  _K,  _K,  // r2
+    _K,  _K,  _KS, _KF, _KF, _KF, _KF, _KF, _KF, _KF, _KS, _K,  _K,  _K,  _K,  _K,  // r3
+    _K,  _K,  _KS, _KF, _KE, _KE, _KF, _KF, _KE, _KE, _KS, _K,  _K,  _K,  _K,  _K,  // r4
+    _K,  _K,  _KS, _KF, _KF, _KF, _KF, _KF, _KF, _KF, _KS, _K,  _K,  _K,  _K,  _K,  // r5
+    _K,  _K,  _K,  _KS, _KS, _KS, _KS, _KS, _KS, _KS, _K,  _K,  _K,  _K,  _K,  _K,  // r6
+    _K,  _K,  _KR, _KR, _KR, _KR, _KR, _KR, _KR, _KR, _K,  _K,  _K,  _K,  _K,  _K,  // r7
+    _K,  _KR, _KR, _KR, _KR, _KR, _KR, _KR, _KR, _KR, _KR, _K,  _K,  _K,  _K,  _K,  // r8
+    _K,  _KR, _KR, _KR, _KR, _KR, _KR, _KR, _KR, _KR, _KR, _K,  _K,  _K,  _K,  _K,  // r9
+    _K,  _K,  _KG, _KG, _KG, _KG, _KG, _KG, _KG, _KG, _K,  _K,  _K,  _K,  _K,  _K,  // r10
+    _K,  _K,  _KG, _KG, _KG, _KG, _KG, _KG, _KG, _KG, _K,  _K,  _K,  _K,  _K,  _K,  // r11
+    _K,  _K,  _KG, _KB, _K,  _K,  _K,  _KG, _KB, _K,  _K,  _K,  _K,  _K,  _K,  _K,  // r12 upper legs
+    _K,  _K,  _KB, _K,  _K,  _K,  _K,  _KG, _KB, _K,  _K,  _K,  _K,  _K,  _K,  _K,  // r13 right leg fwd
+    _K,  _K,  _KB, _K,  _K,  _K,  _KB, _KB, _KB, _KB, _K,  _K,  _K,  _K,  _K,  _K,  // r14 right boot fwd
     _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  // r15
 };
 
-// Frame 2: jump (legs tucked)
+// Frame 2: jump (legs spread out)
 static const uint16_t ROBOT_JUMP[ROBOT_SPR_W * ROBOT_SPR_H] = {
-    _K,  _K,  _K,  _K,  _K,  _K,  _K,  _RY, _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  // r0
-    _K,  _K,  _K,  _RB, _RB, _RB, _RB, _RY, _RB, _RB, _RB, _K,  _K,  _K,  _K,  _K,  // r1
-    _K,  _K,  _RB, _RB, _RW, _RB, _RB, _RB, _RB, _RW, _RB, _RB, _K,  _K,  _K,  _K,  // r2
-    _K,  _K,  _RB, _RB, _RD, _RW, _RB, _RB, _RW, _RD, _RB, _RB, _K,  _K,  _K,  _K,  // r3
-    _K,  _K,  _RB, _RB, _RW, _RB, _RB, _RB, _RB, _RW, _RB, _RB, _K,  _K,  _K,  _K,  // r4
-    _K,  _K,  _K,  _RB, _RB, _RB, _RB, _RB, _RB, _RB, _RB, _K,  _K,  _K,  _K,  _K,  // r5
-    _K,  _RG, _RB, _RB, _RB, _RY, _RY, _RY, _RB, _RB, _RB, _RB, _RY, _RY, _K,  _K,  // r6
-    _K,  _RG, _RB, _RB, _RB, _RY, _RY, _RY, _RB, _RB, _RB, _RB, _RY, _RY, _K,  _K,  // r7
-    _K,  _K,  _RB, _RB, _RB, _RB, _RB, _RB, _RB, _RB, _RB, _RB, _K,  _K,  _K,  _K,  // r8
-    _K,  _K,  _RG, _RB, _RB, _RB, _RB, _RB, _RB, _RB, _RG, _K,  _K,  _K,  _K,  _K,  // r9 hip
-    _K,  _RF, _RF, _RB, _K,  _K,  _K,  _K,  _RB, _RF, _RF, _K,  _K,  _K,  _K,  _K,  // r10 tucked legs
-    _RF, _RF, _RF, _RF, _K,  _K,  _K,  _K,  _RF, _RF, _RF, _RF, _K,  _K,  _K,  _K,  // r11 feet out
-    _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  // r12
-    _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  // r13
-    _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  // r14
+    _K,  _K,  _K,  _K,  _KW, _KW, _KW, _KW, _KW, _KW, _K,  _K,  _K,  _K,  _K,  _K,  // r0
+    _K,  _K,  _K,  _KW, _KW, _KW, _KW, _KW, _KW, _KW, _KW, _K,  _K,  _K,  _K,  _K,  // r1
+    _K,  _K,  _KW, _KW, _KW, _KW, _KW, _KW, _KW, _KW, _KW, _KW, _K,  _K,  _K,  _K,  // r2
+    _K,  _K,  _KS, _KF, _KF, _KF, _KF, _KF, _KF, _KF, _KS, _K,  _K,  _K,  _K,  _K,  // r3
+    _K,  _K,  _KS, _KF, _KE, _KE, _KF, _KF, _KE, _KE, _KS, _K,  _K,  _K,  _K,  _K,  // r4
+    _K,  _K,  _KS, _KF, _KF, _KF, _KF, _KF, _KF, _KF, _KS, _K,  _K,  _K,  _K,  _K,  // r5
+    _K,  _K,  _K,  _KS, _KS, _KS, _KS, _KS, _KS, _KS, _K,  _K,  _K,  _K,  _K,  _K,  // r6
+    _K,  _K,  _KR, _KR, _KR, _KR, _KR, _KR, _KR, _KR, _K,  _K,  _K,  _K,  _K,  _K,  // r7
+    _K,  _KR, _KR, _KR, _KR, _KR, _KR, _KR, _KR, _KR, _KR, _K,  _K,  _K,  _K,  _K,  // r8
+    _K,  _KR, _KR, _KR, _KR, _KR, _KR, _KR, _KR, _KR, _KR, _K,  _K,  _K,  _K,  _K,  // r9
+    _K,  _K,  _KG, _KG, _KG, _KG, _KG, _KG, _KG, _KG, _K,  _K,  _K,  _K,  _K,  _K,  // r10
+    _K,  _K,  _KG, _KG, _KG, _KG, _KG, _KG, _KG, _KG, _K,  _K,  _K,  _K,  _K,  _K,  // r11
+    _K,  _K,  _KG, _KG, _K,  _K,  _K,  _K,  _KG, _KG, _K,  _K,  _K,  _K,  _K,  _K,  // r12 legs spread
+    _K,  _KB, _KB, _K,  _K,  _K,  _K,  _K,  _K,  _KB, _KB, _K,  _K,  _K,  _K,  _K,  // r13 boots spread
+    _K,  _KB, _KB, _K,  _K,  _K,  _K,  _K,  _K,  _KB, _KB, _K,  _K,  _K,  _K,  _K,  // r14 boots wider
     _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  // r15
 };
 
@@ -311,13 +311,13 @@ static const uint16_t CRATE_SPR[CRATE_SPR_W * CRATE_SPR_H] = {
 
 // Clean up local palette macros
 #undef _K
-#undef _RB
-#undef _RL
-#undef _RY
-#undef _RW
-#undef _RD
-#undef _RG
-#undef _RF
+#undef _KW
+#undef _KS
+#undef _KF
+#undef _KE
+#undef _KR
+#undef _KG
+#undef _KB
 #undef _EB
 #undef _EL
 #undef _EE
