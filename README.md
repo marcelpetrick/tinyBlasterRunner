@@ -1,6 +1,12 @@
 # Tiny Blaster Runner
 
-Side-scrolling arcade shooter for the TENSTAR T-Display ESP32 clone (135×240 ST7789 display, two buttons). Built with native ESP-IDF — no Arduino layer.
+Side-scrolling arcade shooter for the TENSTAR T-Display ESP32 clone (135×240 ST7789 display, two buttons). Built with native ESP-IDF.
+
+**Author: Marcel Petrick <mail@marcelpetrick.it>**
+
+**Note: projected is generated with AI.**
+
+**License: GPLv3 or later. See `LICENSE`.**
 
 ## Environment
 
