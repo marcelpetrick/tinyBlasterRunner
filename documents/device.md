@@ -113,7 +113,7 @@ The board is currently running the native ESP-IDF project in this repository:
 - ST7789 RAM offset in firmware: `x=52`, `y=40`
 - Display SPI pins: MOSI `GPIO19`, SCLK `GPIO18`, CS `GPIO5`, DC `GPIO16`, RST `GPIO23`, BL `GPIO4`
 - Display SPI clock: `20 MHz`
-- Current verified behavior: boots, initializes ST7789, runs red/green/blue/white/black fill phases, starts a two-button catch game, configures debounced button polling, and enters a 30 FPS fixed-rate game loop with timing stats over serial.
+- Current verified behavior: boots, initializes ST7789, clears the screen, initializes NVS, and launches the Tiny Blaster Runner shooter game — player sprite, projectiles, enemies, coins, obstacles, and particle effects — at a stable 30 FPS with timing stats over serial.
 - Button test status: GPIO configuration, debouncing, press/release serial events, and game-loop event delivery are verified. Stable physical left/right orientation should still be checked visually at the device.
 
 ## Capacity And Rendering Budget
@@ -128,7 +128,7 @@ The board has `16MB` physical flash. The current repository partition table allo
 | `storage` SPIFFS | `5MB` | Intended asset/data area. |
 | remaining flash | about `896KiB` | Currently unused by the partition table. |
 
-Current firmware binary size is about `208KB`, leaving about `1.8MB` free in the `2MB` factory app slot and about `3.8MB` free in a `4MB` OTA app slot.
+Current firmware binary size is about `242KB`, leaving about `1.8MB` free in the `2MB` factory app slot and about `3.8MB` free in a `4MB` OTA app slot.
 
 The display is `135 x 240`, or `32,400` pixels. A full-screen raw RGB565 frame is `64,800` bytes, about `63.3KiB`.
 
