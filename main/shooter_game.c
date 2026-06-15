@@ -10,6 +10,7 @@
 #include "font_5x7.h"
 #include "nvs.h"
 #include "shooter_sprites.h"
+#include "version.h"
 
 static const char *TAG = "shooter_game";
 
@@ -949,6 +950,8 @@ static void draw_splash(shooter_game_t *g)
     if ((g->state_ms / 500u) % 2u == 0u) {
         sfb_text((DISP_W - 14*6)/2, 195, "PRESS A BUTTON", C_WHITE, 1);
     }
+
+    sfb_text((DISP_W - 6*6)/2, 228, TBR_VERSION, C_DARK_GRAY, 1);
 }
 
 static void draw_menu(shooter_game_t *g)
@@ -969,6 +972,8 @@ static void draw_menu(shooter_game_t *g)
     char buf[20];
     snprintf(buf, sizeof(buf), "BEST  %05ld", (long)g->hi_score);
     sfb_text(10, 180, buf, C_WHITE, 1);
+
+    sfb_text((DISP_W - 6*6)/2, 228, TBR_VERSION, C_DARK_GRAY, 1);
 }
 
 static void draw_gameover(shooter_game_t *g)
