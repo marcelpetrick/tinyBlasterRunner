@@ -39,6 +39,8 @@ static const char *TAG = "shooter_game";
 #define EBOT_DRAW_H     (EBOT_SPR_H  * SPR_SCALE)
 #define DRONE_DRAW_W    (DRONE_SPR_W * SPR_SCALE)
 #define DRONE_DRAW_H    (DRONE_SPR_H * SPR_SCALE)
+#define SLUG_DRAW_W     (SLUG_SPR_W  * SPR_SCALE)
+#define SLUG_DRAW_H     (SLUG_SPR_H  * SPR_SCALE)
 #define COIN_DRAW_W     (COIN_SPR_W  * SPR_SCALE)
 #define COIN_DRAW_H     (COIN_SPR_H  * SPR_SCALE)
 #define ROCK_DRAW_W     (ROCK_SPR_W  * SPR_SCALE)
@@ -371,11 +373,15 @@ static void try_spawn_coin(shooter_game_t *g)
 
 static void try_spawn_enemy(shooter_game_t *g)
 {
-    sg_enemy_type_t type = (rng_next(&g->rng) & 1u) ? SG_ENEMY_FLYING_DRONE
-                                                      : SG_ENEMY_GROUND_BOT;
+    uint32_t roll = rng_next(&g->rng) % 3u;
+    sg_enemy_type_t type = (roll == 0) ? SG_ENEMY_GROUND_BOT :
+                           (roll == 1) ? SG_ENEMY_FLYING_DRONE :
+                                         SG_ENEMY_SLUG;
     float y;
     if (type == SG_ENEMY_GROUND_BOT) {
         y = (float)(GROUND_Y - EBOT_DRAW_H);
+    } else if (type == SG_ENEMY_SLUG) {
+        y = (float)(GROUND_Y - SLUG_DRAW_H);
     } else {
         y = (float)rng_range(&g->rng, HUD_H + 30, 170);
     }
@@ -617,14 +623,16 @@ esp_err_t shooter_game_update(shooter_game_t *game, uint32_t frame, uint32_t dt_
     for (int i = 0; i < SG_MAX_ENEMIES; i++) {
         sg_enemy_t *e = &game->enemies[i];
         if (!e->active) continue;
-        float spd = game->scroll_speed * ((e->type == SG_ENEMY_FLYING_DRONE) ? 1.15f : 1.0f);
+        float spd = game->scroll_speed * ((e->type == SG_ENEMY_FLYING_DRONE) ? 1.15f :
+                                          (e->type == SG_ENEMY_SLUG)         ? 0.8f  : 1.0f);
         e->x -= spd;
         e->anim_ms += dt_ms;
         if (e->anim_ms >= ENEMY_ANIM_MS) {
-            e->anim_ms   = 0;
+            e->anim_ms    = 0;
             e->anim_frame = 1 - e->anim_frame;
         }
-        if (e->x + (float)EBOT_DRAW_W < 0.0f) e->active = false;
+        float e_cull_w = (e->type == SG_ENEMY_SLUG) ? (float)SLUG_DRAW_W : (float)EBOT_DRAW_W;
+        if (e->x + e_cull_w < 0.0f) e->active = false;
     }
 
     // Coins
@@ -665,8 +673,10 @@ esp_err_t shooter_game_update(shooter_game_t *game, uint32_t frame, uint32_t dt_
         for (int ei = 0; ei < SG_MAX_ENEMIES; ei++) {
             sg_enemy_t *e = &game->enemies[ei];
             if (!e->active) continue;
-            float ew = (float)EBOT_DRAW_W;
-            float eh = (float)EBOT_DRAW_H;
+            float ew = (e->type == SG_ENEMY_SLUG) ? (float)SLUG_DRAW_W :
+                       (e->type == SG_ENEMY_FLYING_DRONE) ? (float)DRONE_DRAW_W : (float)EBOT_DRAW_W;
+            float eh = (e->type == SG_ENEMY_SLUG) ? (float)SLUG_DRAW_H :
+                       (e->type == SG_ENEMY_FLYING_DRONE) ? (float)DRONE_DRAW_H : (float)EBOT_DRAW_H;
             if (aabb(game->projectiles[pi].x, game->projectiles[pi].y, PROJ_W, PROJ_H,
                      e->x, e->y, ew, eh)) {
                 game->projectiles[pi].active = false;
@@ -707,8 +717,10 @@ esp_err_t shooter_game_update(shooter_game_t *game, uint32_t frame, uint32_t dt_
     for (int ei = 0; ei < SG_MAX_ENEMIES; ei++) {
         sg_enemy_t *e = &game->enemies[ei];
         if (!e->active) continue;
-        float ew = (float)EBOT_DRAW_W;
-        float eh = (float)EBOT_DRAW_H;
+        float ew = (e->type == SG_ENEMY_SLUG) ? (float)SLUG_DRAW_W :
+                   (e->type == SG_ENEMY_FLYING_DRONE) ? (float)DRONE_DRAW_W : (float)EBOT_DRAW_W;
+        float eh = (e->type == SG_ENEMY_SLUG) ? (float)SLUG_DRAW_H :
+                   (e->type == SG_ENEMY_FLYING_DRONE) ? (float)DRONE_DRAW_H : (float)EBOT_DRAW_H;
         if (aabb(PLAYER_FIXED_X + 4, p->y + 4, (float)ROBOT_DRAW_W - 8, (float)ROBOT_DRAW_H - 8,
                  e->x + 2, e->y + 2, ew - 4, eh - 4)) {
             e->active = false;
@@ -861,6 +873,9 @@ static void draw_gameplay(shooter_game_t *g)
         if (e->type == SG_ENEMY_GROUND_BOT) {
             const uint16_t *spr = (e->anim_frame == 0) ? EBOT_F0 : EBOT_F1;
             sfb_sprite((int)e->x, (int)e->y, EBOT_SPR_W, EBOT_SPR_H, spr, SPR_SCALE);
+        } else if (e->type == SG_ENEMY_SLUG) {
+            const uint16_t *spr = (e->anim_frame == 0) ? SLUG_F0 : SLUG_F1;
+            sfb_sprite((int)e->x, (int)e->y, SLUG_SPR_W, SLUG_SPR_H, spr, SPR_SCALE);
         } else {
             const uint16_t *spr = (e->anim_frame == 0) ? DRONE_F0 : DRONE_F1;
             sfb_sprite((int)e->x, (int)e->y, DRONE_SPR_W, DRONE_SPR_H, spr, SPR_SCALE);

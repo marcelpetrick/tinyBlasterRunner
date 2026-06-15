@@ -58,6 +58,7 @@ typedef struct {
 typedef enum {
     SG_ENEMY_GROUND_BOT = 0,
     SG_ENEMY_FLYING_DRONE,
+    SG_ENEMY_SLUG,
 } sg_enemy_type_t;
 
 typedef struct {

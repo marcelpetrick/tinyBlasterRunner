@@ -26,6 +26,12 @@ conversion from a reference image via a small Python script (image → RGB565 he
 
 ---
 
+## #slug — Yellow slug enemy — Done
+
+`SG_ENEMY_SLUG` added to `sg_enemy_type_t`. 12×10 RGB565 sprite with two-frame eyestalk wobble animation. Spawns ground-level at 1/3 probability alongside the existing bot and drone. Moves at 0.8× scroll speed. Per-type collision dimensions wired in both projectile-vs-enemy and player-vs-enemy checks.
+
+---
+
 ## #1 — Double jump — Done
 
 `double_jump_used` field added to `sg_player_t`. Second mid-air press of the jump button fires 85% impulse and spawns a sparkle burst; field resets on landing.

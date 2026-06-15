@@ -19,6 +19,8 @@
 #define ROCK_SPR_H    10u
 #define CRATE_SPR_W   12u
 #define CRATE_SPR_H   12u
+#define SLUG_SPR_W    12u
+#define SLUG_SPR_H    10u
 
 // ---------------------------------------------------------------
 // Local palette macros
@@ -63,6 +65,14 @@
 #define _RK  0x8430u  // medium gray
 #define _RH  0xC638u  // highlight
 #define _RS  0x4208u  // shadow
+
+// --- Slug enemy ---
+#define _SY  0xFFE0u  // bright yellow body
+#define _SM  0xFC40u  // medium yellow
+#define _SD  0xC500u  // dark amber shadow
+#define _SE  0x0000u  // black eye
+#define _SW  0xFFFFu  // white eyeshine
+#define _SG  0x0400u  // dark green slime
 
 // --- Crate ---
 #define _CB  0xA285u  // wood brown
@@ -309,6 +319,38 @@ static const uint16_t CRATE_SPR[CRATE_SPR_W * CRATE_SPR_H] = {
     _CS, _CS, _CS, _CS, _CS, _CS, _CS, _CS, _CS, _CS, _CS, _CS,  // r11 bottom shadow
 };
 
+// =============================================================
+// SLUG ENEMY  12 x 10  — 2 frames (eyestalk wobble)
+// A yellow slug snail crawling along the ground at 0.8x speed.
+// =============================================================
+// Frame 0: eyestalk centred
+static const uint16_t SLUG_F0[SLUG_SPR_W * SLUG_SPR_H] = {
+    _K,  _K,  _K,  _K,  _SW, _K,  _K,  _K,  _K,  _K,  _K,  _K,  // r0  eye shine
+    _K,  _K,  _K,  _SY, _SE, _K,  _K,  _K,  _K,  _K,  _K,  _K,  // r1  eye on stalk
+    _K,  _K,  _SY, _SY, _SY, _SY, _SY, _SY, _SY, _K,  _K,  _K,  // r2  head top
+    _K,  _SY, _SY, _SY, _SM, _SM, _SM, _SY, _SY, _SY, _K,  _K,  // r3  body upper
+    _SY, _SY, _SY, _SM, _SY, _SY, _SY, _SM, _SY, _SY, _SY, _K,  // r4  body middle
+    _SY, _SY, _SY, _SY, _SY, _SY, _SY, _SY, _SY, _SY, _SY, _K,  // r5  body lower
+    _SD, _SD, _SD, _SD, _SD, _SD, _SD, _SD, _SD, _SD, _K,  _K,  // r6  underside shadow
+    _K,  _SG, _SG, _SG, _SG, _SG, _SG, _SG, _SG, _K,  _K,  _K,  // r7  slime trail
+    _K,  _K,  _SG, _SG, _SG, _SG, _SG, _SG, _K,  _K,  _K,  _K,  // r8  slime thinner
+    _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  // r9
+};
+
+// Frame 1: eyestalk shifted (wobble)
+static const uint16_t SLUG_F1[SLUG_SPR_W * SLUG_SPR_H] = {
+    _K,  _K,  _K,  _K,  _K,  _SW, _K,  _K,  _K,  _K,  _K,  _K,  // r0
+    _K,  _K,  _K,  _K,  _SY, _SE, _K,  _K,  _K,  _K,  _K,  _K,  // r1
+    _K,  _K,  _SY, _SY, _SY, _SY, _SY, _SY, _SY, _K,  _K,  _K,  // r2
+    _K,  _SY, _SY, _SY, _SM, _SM, _SM, _SY, _SY, _SY, _K,  _K,  // r3
+    _SY, _SY, _SY, _SM, _SY, _SY, _SY, _SM, _SY, _SY, _SY, _K,  // r4
+    _SY, _SY, _SY, _SY, _SY, _SY, _SY, _SY, _SY, _SY, _SY, _K,  // r5
+    _SD, _SD, _SD, _SD, _SD, _SD, _SD, _SD, _SD, _SD, _K,  _K,  // r6
+    _K,  _SG, _SG, _SG, _SG, _SG, _SG, _SG, _SG, _K,  _K,  _K,  // r7
+    _K,  _K,  _SG, _SG, _SG, _SG, _SG, _SG, _K,  _K,  _K,  _K,  // r8
+    _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  _K,  // r9
+};
+
 // Clean up local palette macros
 #undef _K
 #undef _KW
@@ -318,6 +360,12 @@ static const uint16_t CRATE_SPR[CRATE_SPR_W * CRATE_SPR_H] = {
 #undef _KR
 #undef _KG
 #undef _KB
+#undef _SY
+#undef _SM
+#undef _SD
+#undef _SE
+#undef _SW
+#undef _SG
 #undef _EB
 #undef _EL
 #undef _EE
