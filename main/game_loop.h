@@ -1,3 +1,10 @@
+/** @file game_loop.h
+ *  @brief Fixed-rate game loop with input polling, update, and render callbacks.
+ *
+ *  Drives the game at @p target_fps using FreeRTOS vTaskDelay. Passes the
+ *  actual elapsed delta-time (dt_ms) to update and render so physics stays
+ *  correct even if a frame runs long.
+ */
 #pragma once
 
 #include <stddef.h>
@@ -8,6 +15,7 @@
 #include "button_input.h"
 #include "esp_err.h"
 
+/** Callback invoked once per frame with all button events collected since the last frame. */
 typedef esp_err_t (*game_loop_input_cb_t)(const button_event_t* events, size_t event_count, void* ctx);
 typedef esp_err_t (*game_loop_step_cb_t)(uint32_t frame, uint32_t dt_ms, void* ctx);
 

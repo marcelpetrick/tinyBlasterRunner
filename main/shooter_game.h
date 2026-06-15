@@ -1,3 +1,9 @@
+/** @file shooter_game.h
+ *  @brief Side-scrolling shooter game — state types and public API.
+ *
+ *  All game state lives in a single shooter_game_t struct. The caller owns
+ *  the struct and passes it to each API function. No global state is used.
+ */
 #pragma once
 
 #include <stdbool.h>

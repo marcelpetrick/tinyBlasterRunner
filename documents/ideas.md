@@ -162,7 +162,9 @@ target filesystem, which this board doesn't expose; host-only is the practical p
 
 ---
 
-## #5 — Doxygen documentation generation
+## #5 — Doxygen documentation generation — Done
+
+`Doxyfile` at project root: Google-C-optimised, `EXTRACT_ALL = YES`, HTML to `docs/html/`. Brief `/** */` file and function comments added to the five public headers (`st7789_display.h`, `graphics.h`, `button_input.h`, `game_loop.h`, `shooter_game.h`). `build_flash.sh docs` runs doxygen and prints the output path. `docs/html/` is gitignored.
 
 **What:** Auto-generate HTML API docs from source comments using Doxygen, covering
 the public headers (`st7789_display.h`, `graphics.h`, `game_loop.h`, `shooter_game.h`,

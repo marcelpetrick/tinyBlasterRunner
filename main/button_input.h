@@ -1,3 +1,6 @@
+/** @file button_input.h
+ *  @brief Debounced GPIO button driver with press / release / long-press events.
+ */
 #pragma once
 
 #include <stdbool.h>
