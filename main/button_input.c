@@ -6,38 +6,33 @@
 #include "esp_log.h"
 #include "esp_timer.h"
 
-static const char *TAG = "button_input";
+static const char* TAG = "button_input";
 
-static uint64_t now_ms(void)
-{
+static uint64_t now_ms(void) {
     return (uint64_t)(esp_timer_get_time() / 1000);
 }
 
-static gpio_num_t button_gpio(button_id_t id)
-{
-    const board_config_t *board = board_config_get();
+static gpio_num_t button_gpio(button_id_t id) {
+    const board_config_t* board = board_config_get();
     switch (id) {
-    case BUTTON_ID_LEFT:
-        return board->button_left;
-    case BUTTON_ID_RIGHT:
-        return board->button_right;
-    default:
-        return GPIO_NUM_NC;
+        case BUTTON_ID_LEFT:
+            return board->button_left;
+        case BUTTON_ID_RIGHT:
+            return board->button_right;
+        default:
+            return GPIO_NUM_NC;
     }
 }
 
-static bool gpio_has_internal_pull(gpio_num_t gpio)
-{
+static bool gpio_has_internal_pull(gpio_num_t gpio) {
     return gpio >= GPIO_NUM_0 && gpio <= GPIO_NUM_33;
 }
 
-static bool read_pressed(button_id_t id)
-{
+static bool read_pressed(button_id_t id) {
     return board_button_is_active_level(gpio_get_level(button_gpio(id)));
 }
 
-static esp_err_t configure_button(button_id_t id)
-{
+static esp_err_t configure_button(button_id_t id) {
     const gpio_num_t gpio = button_gpio(id);
     ESP_RETURN_ON_FALSE(gpio != GPIO_NUM_NC, ESP_ERR_INVALID_ARG, TAG, "invalid button gpio");
 
@@ -49,15 +44,12 @@ static esp_err_t configure_button(button_id_t id)
         .intr_type = GPIO_INTR_DISABLE,
     };
     ESP_RETURN_ON_ERROR(gpio_config(&config), TAG, "button gpio config failed");
-    ESP_LOGI(TAG, "%s button on GPIO%d, pullup=%s",
-             button_input_name(id),
-             gpio,
+    ESP_LOGI(TAG, "%s button on GPIO%d, pullup=%s", button_input_name(id), gpio,
              gpio_has_internal_pull(gpio) ? "internal" : "external-or-none");
     return ESP_OK;
 }
 
-esp_err_t button_input_init(button_input_t *input, uint32_t debounce_ms)
-{
+esp_err_t button_input_init(button_input_t* input, uint32_t debounce_ms) {
     ESP_RETURN_ON_FALSE(input != NULL, ESP_ERR_INVALID_ARG, TAG, "input is required");
 
     input->debounce_ms = debounce_ms;
@@ -76,11 +68,7 @@ esp_err_t button_input_init(button_input_t *input, uint32_t debounce_ms)
     return ESP_OK;
 }
 
-esp_err_t button_input_poll(button_input_t *input,
-                            button_event_t *events,
-                            size_t max_events,
-                            size_t *event_count)
-{
+esp_err_t button_input_poll(button_input_t* input, button_event_t* events, size_t max_events, size_t* event_count) {
     ESP_RETURN_ON_FALSE(input != NULL, ESP_ERR_INVALID_ARG, TAG, "input is required");
     ESP_RETURN_ON_FALSE(event_count != NULL, ESP_ERR_INVALID_ARG, TAG, "event_count is required");
     ESP_RETURN_ON_FALSE(events != NULL || max_events == 0, ESP_ERR_INVALID_ARG, TAG, "events are required");
@@ -89,7 +77,7 @@ esp_err_t button_input_poll(button_input_t *input,
     const uint64_t timestamp = now_ms();
 
     for (button_id_t id = BUTTON_ID_LEFT; id < BUTTON_ID_COUNT; ++id) {
-        button_state_t *state = &input->buttons[id];
+        button_state_t* state = &input->buttons[id];
         const bool raw_pressed = read_pressed(id);
 
         if (raw_pressed != state->last_raw_pressed) {
@@ -97,15 +85,14 @@ esp_err_t button_input_poll(button_input_t *input,
             state->last_raw_change_ms = timestamp;
         }
 
-        if (raw_pressed != state->stable_pressed &&
-            timestamp - state->last_raw_change_ms >= input->debounce_ms) {
+        if (raw_pressed != state->stable_pressed && timestamp - state->last_raw_change_ms >= input->debounce_ms) {
             state->stable_pressed = raw_pressed;
             if (raw_pressed) {
                 state->press_start_ms = timestamp;
                 state->long_press_fired = false;
             }
             if (*event_count < max_events) {
-                events[*event_count] = (button_event_t) {
+                events[*event_count] = (button_event_t){
                     .id = id,
                     .type = raw_pressed ? BUTTON_EVENT_PRESSED : BUTTON_EVENT_RELEASED,
                     .timestamp_ms = timestamp,
@@ -118,7 +105,7 @@ esp_err_t button_input_poll(button_input_t *input,
             timestamp - state->press_start_ms >= BUTTON_LONG_PRESS_MS) {
             state->long_press_fired = true;
             if (*event_count < max_events) {
-                events[*event_count] = (button_event_t) {
+                events[*event_count] = (button_event_t){
                     .id = id,
                     .type = BUTTON_EVENT_LONG_PRESSED,
                     .timestamp_ms = timestamp,
@@ -131,20 +118,18 @@ esp_err_t button_input_poll(button_input_t *input,
     return ESP_OK;
 }
 
-const char *button_input_name(button_id_t id)
-{
+const char* button_input_name(button_id_t id) {
     switch (id) {
-    case BUTTON_ID_LEFT:
-        return "left";
-    case BUTTON_ID_RIGHT:
-        return "right";
-    default:
-        return "unknown";
+        case BUTTON_ID_LEFT:
+            return "left";
+        case BUTTON_ID_RIGHT:
+            return "right";
+        default:
+            return "unknown";
     }
 }
 
-bool button_input_is_pressed(const button_input_t *input, button_id_t id)
-{
+bool button_input_is_pressed(const button_input_t* input, button_id_t id) {
     if (input == NULL || id >= BUTTON_ID_COUNT) {
         return false;
     }

@@ -5,18 +5,18 @@
 #define SPRITE_KEY 0xF81Fu
 
 // --- sprite dimensions ---
-#define PLAYER_SPRITE_W  10u
-#define PLAYER_SPRITE_H  16u
-#define FLUF_SPRITE_W    14u
-#define FLUF_SPRITE_H    10u
-#define TWIG_SPRITE_W     8u
-#define TWIG_SPRITE_H    22u
-#define MMOU_SPRITE_W    14u
-#define MMOU_SPRITE_H    11u
+#define PLAYER_SPRITE_W 10u
+#define PLAYER_SPRITE_H 16u
+#define FLUF_SPRITE_W 14u
+#define FLUF_SPRITE_H 10u
+#define TWIG_SPRITE_W 8u
+#define TWIG_SPRITE_H 22u
+#define MMOU_SPRITE_W 14u
+#define MMOU_SPRITE_H 11u
 
 // --- color palette ---
 // Player
-#define _K   0xF81Fu  // transparent
+#define _K 0xF81Fu    // transparent
 #define _HAT 0x7A22u  // dark brown hat
 #define _SKN 0xFEF7u  // peach skin
 #define _EYE 0x0000u  // black eye dot
@@ -27,49 +27,49 @@
 #define _SHO 0x5141u  // dark brown shoes
 
 // Fluffalo (blue blob, common)
-#define _FM  0x2B3Bu  // medium blue body
-#define _FL  0x651Fu  // light blue edge
-#define _EW  0xFFFFu  // white of eye
-#define _EP  0x00AFu  // dark blue pupil
-#define _PK  0xFCB6u  // pink rosy cheek
-#define _SM  0x094Cu  // dark smile corner
+#define _FM 0x2B3Bu  // medium blue body
+#define _FL 0x651Fu  // light blue edge
+#define _EW 0xFFFFu  // white of eye
+#define _EP 0x00AFu  // dark blue pupil
+#define _PK 0xFCB6u  // pink rosy cheek
+#define _SM 0x094Cu  // dark smile corner
 
 // Twiglet (green twig creature, rare)
-#define _TL  0x3E47u  // bright leaf green
-#define _TG  0x13C2u  // dark green body
-#define _TB  0x7A83u  // trunk brown
-#define _TY  0xFF82u  // glowing yellow eye
-#define _TP  0x01E0u  // green pupil in yellow
+#define _TL 0x3E47u  // bright leaf green
+#define _TG 0x13C2u  // dark green body
+#define _TB 0x7A83u  // trunk brown
+#define _TY 0xFF82u  // glowing yellow eye
+#define _TP 0x01E0u  // green pupil in yellow
 
 // Moss Mouse (mossy mouse, legendary)
-#define _MB  0xB367u  // mouse brown body
-#define _ME  0xFD16u  // pink ear inner
-#define _MO  0x5647u  // bright moss green
-#define _MN  0xFC74u  // pink nose
-#define _MW  0xFFFFu  // white eye
-#define _MP  0x0000u  // black pupil
+#define _MB 0xB367u  // mouse brown body
+#define _ME 0xFD16u  // pink ear inner
+#define _MO 0x5647u  // bright moss green
+#define _MN 0xFC74u  // pink nose
+#define _MW 0xFFFFu  // white eye
+#define _MP 0x0000u  // black pupil
 
 // =============================================================
 // PLAYER SPRITE  10 x 16
 // A cheerful photographer kid with a blue shirt and camera
 // =============================================================
 static const uint16_t PLAYER_SPRITE[PLAYER_SPRITE_W * PLAYER_SPRITE_H] = {
-    _K,   _K,   _K,   _HAT, _HAT, _HAT, _HAT, _K,   _K,   _K,   // r0  hat top
-    _K,   _K,   _HAT, _HAT, _HAT, _HAT, _HAT, _HAT, _K,   _K,   // r1  hat brim
-    _K,   _K,   _SKN, _SKN, _SKN, _SKN, _SKN, _SKN, _K,   _K,   // r2  forehead
-    _K,   _K,   _SKN, _EYE, _SKN, _SKN, _EYE, _SKN, _K,   _K,   // r3  eyes
-    _K,   _K,   _SKN, _SKN, _SKN, _SKN, _SKN, _SKN, _K,   _K,   // r4  cheeks/chin
-    _K,   _SHT, _SHT, _SHT, _SHT, _SHT, _SHT, _SHT, _K,   _K,   // r5  shirt top
-    _K,   _SHT, _SHT, _CAM, _CAM, _CAM, _SHT, _SHT, _K,   _K,   // r6  camera outline
-    _K,   _SHT, _SHT, _CAM, _CDK, _CAM, _SHT, _SHT, _K,   _K,   // r7  camera lens
-    _K,   _SHT, _SHT, _CAM, _CAM, _CAM, _SHT, _SHT, _K,   _K,   // r8  camera bottom
-    _K,   _K,   _SHT, _SHT, _SHT, _SHT, _SHT, _K,   _K,   _K,   // r9  waist
-    _K,   _K,   _PNT, _PNT, _K,   _K,   _PNT, _PNT, _K,   _K,   // r10 pants
-    _K,   _K,   _PNT, _PNT, _K,   _K,   _PNT, _PNT, _K,   _K,   // r11
-    _K,   _K,   _PNT, _PNT, _K,   _K,   _PNT, _PNT, _K,   _K,   // r12
-    _K,   _K,   _PNT, _PNT, _K,   _K,   _PNT, _PNT, _K,   _K,   // r13
-    _K,   _K,   _SHO, _SHO, _K,   _K,   _SHO, _SHO, _K,   _K,   // r14 shoes
-    _K,   _SHO, _SHO, _SHO, _K,   _K,   _SHO, _SHO, _SHO, _K,   // r15 wider sole
+    _K, _K,   _K,   _HAT, _HAT, _HAT, _HAT, _K,   _K,   _K,  // r0  hat top
+    _K, _K,   _HAT, _HAT, _HAT, _HAT, _HAT, _HAT, _K,   _K,  // r1  hat brim
+    _K, _K,   _SKN, _SKN, _SKN, _SKN, _SKN, _SKN, _K,   _K,  // r2  forehead
+    _K, _K,   _SKN, _EYE, _SKN, _SKN, _EYE, _SKN, _K,   _K,  // r3  eyes
+    _K, _K,   _SKN, _SKN, _SKN, _SKN, _SKN, _SKN, _K,   _K,  // r4  cheeks/chin
+    _K, _SHT, _SHT, _SHT, _SHT, _SHT, _SHT, _SHT, _K,   _K,  // r5  shirt top
+    _K, _SHT, _SHT, _CAM, _CAM, _CAM, _SHT, _SHT, _K,   _K,  // r6  camera outline
+    _K, _SHT, _SHT, _CAM, _CDK, _CAM, _SHT, _SHT, _K,   _K,  // r7  camera lens
+    _K, _SHT, _SHT, _CAM, _CAM, _CAM, _SHT, _SHT, _K,   _K,  // r8  camera bottom
+    _K, _K,   _SHT, _SHT, _SHT, _SHT, _SHT, _K,   _K,   _K,  // r9  waist
+    _K, _K,   _PNT, _PNT, _K,   _K,   _PNT, _PNT, _K,   _K,  // r10 pants
+    _K, _K,   _PNT, _PNT, _K,   _K,   _PNT, _PNT, _K,   _K,  // r11
+    _K, _K,   _PNT, _PNT, _K,   _K,   _PNT, _PNT, _K,   _K,  // r12
+    _K, _K,   _PNT, _PNT, _K,   _K,   _PNT, _PNT, _K,   _K,  // r13
+    _K, _K,   _SHO, _SHO, _K,   _K,   _SHO, _SHO, _K,   _K,  // r14 shoes
+    _K, _SHO, _SHO, _SHO, _K,   _K,   _SHO, _SHO, _SHO, _K,  // r15 wider sole
 };
 
 // =============================================================

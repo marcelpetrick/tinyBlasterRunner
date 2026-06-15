@@ -39,10 +39,7 @@ typedef struct {
     uint32_t debounce_ms;
 } button_input_t;
 
-esp_err_t button_input_init(button_input_t *input, uint32_t debounce_ms);
-esp_err_t button_input_poll(button_input_t *input,
-                            button_event_t *events,
-                            size_t max_events,
-                            size_t *event_count);
-const char *button_input_name(button_id_t id);
-bool button_input_is_pressed(const button_input_t *input, button_id_t id);
+esp_err_t button_input_init(button_input_t* input, uint32_t debounce_ms);
+esp_err_t button_input_poll(button_input_t* input, button_event_t* events, size_t max_events, size_t* event_count);
+const char* button_input_name(button_id_t id);
+bool button_input_is_pressed(const button_input_t* input, button_id_t id);

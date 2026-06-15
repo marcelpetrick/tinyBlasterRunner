@@ -8,8 +8,7 @@
 #include "font_5x7.h"
 #include "st7789_display.h"
 
-static const uint8_t *glyph_for_char(char ch)
-{
+static const uint8_t* glyph_for_char(char ch) {
     if (ch >= '0' && ch <= '9') {
         return FONT_5X7_DIGITS[ch - '0'];
     }
@@ -22,51 +21,42 @@ static const uint8_t *glyph_for_char(char ch)
     return NULL;
 }
 
-esp_err_t graphics_init(graphics_t *graphics, st7789_display_t *display)
-{
+esp_err_t graphics_init(graphics_t* graphics, st7789_display_t* display) {
     ESP_RETURN_ON_FALSE(graphics != NULL, ESP_ERR_INVALID_ARG, "graphics", "graphics is required");
     ESP_RETURN_ON_FALSE(display != NULL, ESP_ERR_INVALID_ARG, "graphics", "display is required");
 
-    graphics->display       = display;
-    graphics->screen_width  = st7789_display_width(display);
+    graphics->display = display;
+    graphics->screen_width = st7789_display_width(display);
     graphics->screen_height = st7789_display_height(display);
     return ESP_OK;
 }
 
-esp_err_t graphics_clear(graphics_t *graphics, uint16_t color565)
-{
-    ESP_RETURN_ON_FALSE(graphics != NULL && graphics->display != NULL, ESP_ERR_INVALID_ARG, "graphics", "graphics is not initialized");
+esp_err_t graphics_clear(graphics_t* graphics, uint16_t color565) {
+    ESP_RETURN_ON_FALSE(graphics != NULL && graphics->display != NULL, ESP_ERR_INVALID_ARG, "graphics",
+                        "graphics is not initialized");
     return st7789_display_fill(graphics->display, color565);
 }
 
-esp_err_t graphics_fill_rect(graphics_t *graphics,
-                             uint16_t x,
-                             uint16_t y,
-                             uint16_t width,
-                             uint16_t height,
-                             uint16_t color565)
-{
-    ESP_RETURN_ON_FALSE(graphics != NULL && graphics->display != NULL, ESP_ERR_INVALID_ARG, "graphics", "graphics is not initialized");
+esp_err_t graphics_fill_rect(graphics_t* graphics, uint16_t x, uint16_t y, uint16_t width, uint16_t height,
+                             uint16_t color565) {
+    ESP_RETURN_ON_FALSE(graphics != NULL && graphics->display != NULL, ESP_ERR_INVALID_ARG, "graphics",
+                        "graphics is not initialized");
     return st7789_display_draw_rect(graphics->display, x, y, width, height, color565);
 }
 
-esp_err_t graphics_draw_rect(graphics_t *graphics,
-                             uint16_t x,
-                             uint16_t y,
-                             uint16_t width,
-                             uint16_t height,
-                             uint16_t color565)
-{
+esp_err_t graphics_draw_rect(graphics_t* graphics, uint16_t x, uint16_t y, uint16_t width, uint16_t height,
+                             uint16_t color565) {
     ESP_RETURN_ON_FALSE(width > 0 && height > 0, ESP_ERR_INVALID_ARG, "graphics", "invalid rectangle");
     ESP_RETURN_ON_ERROR(graphics_fill_rect(graphics, x, y, width, 1, color565), "graphics", "top edge failed");
     if (height > 1) {
-        ESP_RETURN_ON_ERROR(graphics_fill_rect(graphics, x, y + height - 1, width, 1, color565), "graphics", "bottom edge failed");
+        ESP_RETURN_ON_ERROR(graphics_fill_rect(graphics, x, y + height - 1, width, 1, color565), "graphics",
+                            "bottom edge failed");
     }
     if (height > 2) {
-        ESP_RETURN_ON_ERROR(graphics_fill_rect(graphics, x, y + 1, 1, height - 2, color565), "graphics", "left edge failed");
+        ESP_RETURN_ON_ERROR(graphics_fill_rect(graphics, x, y + 1, 1, height - 2, color565), "graphics",
+                            "left edge failed");
         if (width > 1) {
-            ESP_RETURN_ON_ERROR(graphics_fill_rect(graphics, x + width - 1, y + 1, 1, height - 2, color565),
-                                "graphics",
+            ESP_RETURN_ON_ERROR(graphics_fill_rect(graphics, x + width - 1, y + 1, 1, height - 2, color565), "graphics",
                                 "right edge failed");
         }
     }
@@ -74,44 +64,30 @@ esp_err_t graphics_draw_rect(graphics_t *graphics,
     return ESP_OK;
 }
 
-esp_err_t graphics_draw_bitmap(graphics_t *graphics,
-                               uint16_t x,
-                               uint16_t y,
-                               uint16_t width,
-                               uint16_t height,
-                               const uint16_t *pixels,
-                               size_t pixel_count)
-{
-    ESP_RETURN_ON_FALSE(graphics != NULL && graphics->display != NULL, ESP_ERR_INVALID_ARG, "graphics", "graphics is not initialized");
+esp_err_t graphics_draw_bitmap(graphics_t* graphics, uint16_t x, uint16_t y, uint16_t width, uint16_t height,
+                               const uint16_t* pixels, size_t pixel_count) {
+    ESP_RETURN_ON_FALSE(graphics != NULL && graphics->display != NULL, ESP_ERR_INVALID_ARG, "graphics",
+                        "graphics is not initialized");
     return st7789_display_push_pixels(graphics->display, x, y, width, height, pixels, pixel_count);
 }
 
-esp_err_t graphics_draw_text(graphics_t *graphics,
-                             uint16_t x,
-                             uint16_t y,
-                             const char *text,
-                             uint16_t color565,
-                             uint16_t scale)
-{
-    ESP_RETURN_ON_FALSE(graphics != NULL && graphics->display != NULL, ESP_ERR_INVALID_ARG, "graphics", "graphics is not initialized");
+esp_err_t graphics_draw_text(graphics_t* graphics, uint16_t x, uint16_t y, const char* text, uint16_t color565,
+                             uint16_t scale) {
+    ESP_RETURN_ON_FALSE(graphics != NULL && graphics->display != NULL, ESP_ERR_INVALID_ARG, "graphics",
+                        "graphics is not initialized");
     ESP_RETURN_ON_FALSE(text != NULL, ESP_ERR_INVALID_ARG, "graphics", "text is required");
     ESP_RETURN_ON_FALSE(scale > 0, ESP_ERR_INVALID_ARG, "graphics", "scale must be positive");
 
     uint16_t cursor_x = x;
-    for (const char *cursor = text; *cursor != '\0'; ++cursor) {
-        const uint8_t *glyph = glyph_for_char(*cursor);
+    for (const char* cursor = text; *cursor != '\0'; ++cursor) {
+        const uint8_t* glyph = glyph_for_char(*cursor);
         if (glyph != NULL) {
             for (uint16_t col = 0; col < FONT_5X7_WIDTH; ++col) {
                 for (uint16_t row = 0; row < FONT_5X7_HEIGHT; ++row) {
                     if ((glyph[col] & (1u << row)) != 0) {
-                        ESP_RETURN_ON_ERROR(graphics_fill_rect(graphics,
-                                                               cursor_x + (col * scale),
-                                                               y + (row * scale),
-                                                               scale,
-                                                               scale,
-                                                               color565),
-                                            "graphics",
-                                            "glyph pixel failed");
+                        ESP_RETURN_ON_ERROR(graphics_fill_rect(graphics, cursor_x + (col * scale), y + (row * scale),
+                                                               scale, scale, color565),
+                                            "graphics", "glyph pixel failed");
                     }
                 }
             }
@@ -122,17 +98,12 @@ esp_err_t graphics_draw_text(graphics_t *graphics,
     return ESP_OK;
 }
 
-esp_err_t graphics_draw_sprite(graphics_t *graphics,
-                               int32_t x,
-                               int32_t y,
-                               uint16_t width,
-                               uint16_t height,
-                               const uint16_t *pixels,
-                               uint16_t transparent_key)
-{
-    ESP_RETURN_ON_FALSE(graphics != NULL && graphics->display != NULL, ESP_ERR_INVALID_ARG, "graphics", "not initialized");
+esp_err_t graphics_draw_sprite(graphics_t* graphics, int32_t x, int32_t y, uint16_t width, uint16_t height,
+                               const uint16_t* pixels, uint16_t transparent_key) {
+    ESP_RETURN_ON_FALSE(graphics != NULL && graphics->display != NULL, ESP_ERR_INVALID_ARG, "graphics",
+                        "not initialized");
     ESP_RETURN_ON_FALSE(pixels != NULL, ESP_ERR_INVALID_ARG, "graphics", "pixels required");
-    const uint16_t screen_width  = graphics->screen_width;
+    const uint16_t screen_width = graphics->screen_width;
     const uint16_t screen_height = graphics->screen_height;
 
     for (uint16_t row = 0; row < height; row++) {
@@ -142,7 +113,7 @@ esp_err_t graphics_draw_sprite(graphics_t *graphics,
         }
 
         uint16_t col = 0;
-        const uint16_t *row_pixels = &pixels[(uint32_t)row * width];
+        const uint16_t* row_pixels = &pixels[(uint32_t)row * width];
 
         while (col < width) {
             while (col < width && row_pixels[col] == transparent_key) {
@@ -176,11 +147,8 @@ esp_err_t graphics_draw_sprite(graphics_t *graphics,
             }
 
             ESP_RETURN_ON_ERROR(
-                st7789_display_push_pixels(graphics->display,
-                                           (uint16_t)clip_x, (uint16_t)py,
-                                           (uint16_t)clip_w, 1,
-                                           &row_pixels[run_start + (uint16_t)pixel_offset],
-                                           (size_t)clip_w),
+                st7789_display_push_pixels(graphics->display, (uint16_t)clip_x, (uint16_t)py, (uint16_t)clip_w, 1,
+                                           &row_pixels[run_start + (uint16_t)pixel_offset], (size_t)clip_w),
                 "graphics", "sprite run push failed");
         }
     }
@@ -188,19 +156,13 @@ esp_err_t graphics_draw_sprite(graphics_t *graphics,
     return ESP_OK;
 }
 
-esp_err_t graphics_draw_sprite_scaled(graphics_t *graphics,
-                                      int32_t x,
-                                      int32_t y,
-                                      uint16_t width,
-                                      uint16_t height,
-                                      const uint16_t *pixels,
-                                      uint16_t transparent_key,
-                                      uint8_t scale)
-{
-    ESP_RETURN_ON_FALSE(graphics != NULL && graphics->display != NULL, ESP_ERR_INVALID_ARG, "graphics", "not initialized");
+esp_err_t graphics_draw_sprite_scaled(graphics_t* graphics, int32_t x, int32_t y, uint16_t width, uint16_t height,
+                                      const uint16_t* pixels, uint16_t transparent_key, uint8_t scale) {
+    ESP_RETURN_ON_FALSE(graphics != NULL && graphics->display != NULL, ESP_ERR_INVALID_ARG, "graphics",
+                        "not initialized");
     ESP_RETURN_ON_FALSE(pixels != NULL, ESP_ERR_INVALID_ARG, "graphics", "pixels required");
     ESP_RETURN_ON_FALSE(scale > 0, ESP_ERR_INVALID_ARG, "graphics", "scale must be positive");
-    const uint16_t screen_width  = graphics->screen_width;
+    const uint16_t screen_width = graphics->screen_width;
     const uint16_t screen_height = graphics->screen_height;
 
     if (scale == 1) {
@@ -208,7 +170,7 @@ esp_err_t graphics_draw_sprite_scaled(graphics_t *graphics,
     }
 
     for (uint16_t row = 0; row < height; row++) {
-        const uint16_t *rp = &pixels[(uint32_t)row * width];
+        const uint16_t* rp = &pixels[(uint32_t)row * width];
 
         for (uint8_t s = 0; s < scale; s++) {
             int32_t py = y + (int32_t)row * scale + (int32_t)s;

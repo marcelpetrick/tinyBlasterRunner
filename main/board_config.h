@@ -34,8 +34,8 @@
 #define BOARD_SERIAL_BAUD 115200
 
 typedef struct {
-    const char *name;
-    const char *display_driver;
+    const char* name;
+    const char* display_driver;
     uint16_t display_width;
     uint16_t display_height;
     uint16_t display_x_offset;
@@ -58,6 +58,6 @@ typedef struct {
     uint32_t serial_baud;
 } board_config_t;
 
-const board_config_t *board_config_get(void);
+const board_config_t* board_config_get(void);
 bool board_button_is_active_level(int level);
 void board_config_log(void);
