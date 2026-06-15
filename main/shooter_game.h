@@ -38,6 +38,8 @@ typedef struct {
     bool     left_held;
     uint32_t left_hold_ms;   // how long left is held this press
 
+    bool     double_jump_used;  // consumed on second mid-air jump; reset on landing
+
     bool     shooting_anim;  // brief arm animation
     uint32_t shoot_anim_ms;
 } sg_player_t;

@@ -322,6 +322,7 @@ static void reset_play(shooter_game_t *g)
         .shoot_cooldown_ms  = 0,
         .left_held          = false,
         .left_hold_ms       = 0,
+        .double_jump_used   = false,
         .shooting_anim      = false,
         .shoot_anim_ms      = 0,
     };
@@ -473,11 +474,20 @@ esp_err_t shooter_game_handle_input(shooter_game_t *game,
 
             if (ev->type == BUTTON_EVENT_PRESSED && ev->id == BUTTON_ID_LEFT) {
                 if (!p->in_air) {
-                    p->vy           = JUMP_VY;
-                    p->in_air       = true;
-                    p->left_held    = true;
-                    p->left_hold_ms = 0;
+                    p->vy              = JUMP_VY;
+                    p->in_air          = true;
+                    p->double_jump_used = false;
+                    p->left_held       = true;
+                    p->left_hold_ms    = 0;
                     spawn_dust(game, PLAYER_FIXED_X + ROBOT_DRAW_W / 2.0f, (float)GROUND_Y);
+                } else if (!p->double_jump_used) {
+                    p->vy              = JUMP_VY * 0.85f;
+                    p->double_jump_used = true;
+                    p->left_held       = true;
+                    p->left_hold_ms    = 0;
+                    spawn_sparkle(game,
+                                  PLAYER_FIXED_X + ROBOT_DRAW_W / 2.0f,
+                                  p->y + ROBOT_DRAW_H / 2.0f);
                 }
             }
             if (ev->type == BUTTON_EVENT_RELEASED && ev->id == BUTTON_ID_LEFT) {
@@ -556,9 +566,10 @@ esp_err_t shooter_game_update(shooter_game_t *game, uint32_t frame, uint32_t dt_
     p->y  += p->vy;
     if (p->y >= (float)PLAYER_GND_Y) {
         if (p->in_air) spawn_dust(game, PLAYER_FIXED_X + ROBOT_DRAW_W / 2.0f, (float)GROUND_Y);
-        p->y      = (float)PLAYER_GND_Y;
-        p->vy     = 0.0f;
-        p->in_air = false;
+        p->y               = (float)PLAYER_GND_Y;
+        p->vy              = 0.0f;
+        p->in_air          = false;
+        p->double_jump_used = false;
     }
 
     // Run animation

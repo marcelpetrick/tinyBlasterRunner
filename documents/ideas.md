@@ -24,7 +24,9 @@ conversion from a reference image via a small Python script (image → RGB565 he
 
 ---
 
-## #1 — Double jump
+## #1 — Double jump — Done
+
+`double_jump_used` field added to `sg_player_t`. Second mid-air press of the jump button fires 85% impulse and spawns a sparkle burst; field resets on landing.
 
 **What:** While the player is airborne after a first jump, pressing the jump button once
 more launches a second upward impulse from the current mid-air position. The second jump
