@@ -1,0 +1,11 @@
+menu "Tiny Blaster Runner"
+
+config RUN_SMOKE_TEST
+    bool "Run display smoke test on boot (before game)"
+    default n
+    help
+        When enabled, a colour-fill / pattern smoke test runs on boot
+        and logs PASS or FAIL over serial before the game starts.
+        Disable for normal gameplay.
+
+endmenu

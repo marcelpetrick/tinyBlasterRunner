@@ -8,6 +8,7 @@
 #include "esp_check.h"
 #include "esp_log.h"
 #include "font_5x7.h"
+#include "game_math.h"
 #include "nvs.h"
 #include "shooter_sprites.h"
 #include "version.h"
@@ -211,21 +212,8 @@ static void nvs_save_hi(int32_t hi)
 }
 
 // ---------------------------------------------------------------
-// RNG
+// RNG — implemented in game_math.c
 // ---------------------------------------------------------------
-static uint32_t rng_next(uint32_t *s)
-{
-    *s = (*s * 1664525u) + 1013904223u;
-    return *s;
-}
-
-/* Returns a value in [lo, hi] INCLUSIVE. hi must be > lo and < INT32_MAX. */
-static int32_t rng_range(uint32_t *s, int32_t lo, int32_t hi)
-{
-    if (hi <= lo) return lo;
-    uint32_t range = (uint32_t)(hi - lo) + 1u;  // widened to avoid signed overflow
-    return lo + (int32_t)(rng_next(s) % range);
-}
 
 // ---------------------------------------------------------------
 // Particle helpers
@@ -349,14 +337,8 @@ static void reset_play(shooter_game_t *g)
 }
 
 // ---------------------------------------------------------------
-// AABB collision
+// AABB collision — implemented in game_math.c
 // ---------------------------------------------------------------
-static bool aabb(float ax, float ay, float aw, float ah,
-                 float bx, float by, float bw, float bh)
-{
-    return ax < bx + bw && ax + aw > bx &&
-           ay < by + bh && ay + ah > by;
-}
 
 // ---------------------------------------------------------------
 // Spawn helpers

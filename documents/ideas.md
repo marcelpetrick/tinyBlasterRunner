@@ -44,7 +44,9 @@ struct.
 
 ---
 
-## #2 — Local build / test / flash pipeline
+## #2 — Local build / test / flash pipeline — Done
+
+Build summary line, smoke-test wiring via `CONFIG_RUN_SMOKE_TEST` Kconfig flag, 10-test Unity host suite (native GCC + IDF's Unity), and `ci.sh` one-command gate all implemented and green.
 
 ### Current state
 

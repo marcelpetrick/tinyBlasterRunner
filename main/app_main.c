@@ -4,6 +4,9 @@
 #include "graphics.h"
 #include "shooter_game.h"
 #include "st7789_display.h"
+#ifdef CONFIG_RUN_SMOKE_TEST
+#include "display_smoke_test.h"
+#endif
 
 #include "esp_chip_info.h"
 #include "esp_err.h"
@@ -69,6 +72,16 @@ void app_main(void)
     st7789_display_t *display = NULL;
     ESP_ERROR_CHECK(st7789_display_init(&display));
     ESP_ERROR_CHECK(st7789_display_fill(display, 0x0000));
+
+#ifdef CONFIG_RUN_SMOKE_TEST
+    esp_err_t smoke_err = display_smoke_test_run(display);
+    if (smoke_err == ESP_OK) {
+        ESP_LOGI(TAG, "Smoke test PASS");
+    } else {
+        ESP_LOGE(TAG, "Smoke test FAIL: %s", esp_err_to_name(smoke_err));
+    }
+    ESP_ERROR_CHECK(st7789_display_fill(display, 0x0000));
+#endif
 
     button_input_t buttons = {0};
     ESP_ERROR_CHECK(button_input_init(&buttons, 30));
